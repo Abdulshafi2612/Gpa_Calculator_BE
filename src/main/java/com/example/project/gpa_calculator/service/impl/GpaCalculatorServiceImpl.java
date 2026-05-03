@@ -77,13 +77,14 @@ public class GpaCalculatorServiceImpl implements GpaCalculatorService {
 
     @Override
     public void updateUserTotals(User user) {
-        List<Semester> semesters = semesterRepository.findByUserId(user.getId());
+        List<Semester> activeSemesters =
+                semesterRepository.findByUserIdAndActiveTrue(user.getId());
 
-        int totalCredits = semesters.stream()
+        int totalCredits = activeSemesters.stream()
                 .mapToInt(Semester::getSemesterCredits)
                 .sum();
 
-        double totalGradePoints = semesters.stream()
+        double totalGradePoints = activeSemesters.stream()
                 .mapToDouble(semester ->
                         semester.getSemesterGpa() * semester.getSemesterCredits()
                 )
@@ -103,12 +104,13 @@ public class GpaCalculatorServiceImpl implements GpaCalculatorService {
     public CgpaResponse getCgpa() {
         User user = currentUserService.getCurrentUser();
 
-        int semesterCount = semesterRepository.findByUserId(user.getId()).size();
+        List<Semester> activeSemesters =
+                semesterRepository.findByUserIdAndActiveTrue(user.getId());
 
         return new CgpaResponse(
                 user.getTotalGpa(),
                 user.getTotalCredits(),
-                semesterCount
+                activeSemesters.size()
         );
     }
 }

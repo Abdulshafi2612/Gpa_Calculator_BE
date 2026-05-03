@@ -49,4 +49,9 @@ public class SemesterController {
         return ResponseEntity.ok(semesterResponse);
     }
 
+    @PatchMapping("/{id}/toggle-active")
+    public ResponseEntity<SemesterResponse> toggleActive(@PathVariable Long id) {
+        return ResponseEntity.ok(semesterService.toggleActive(id));
+    }
+
 }

@@ -129,6 +129,21 @@ public class SemesterServiceImpl implements SemesterService {
         gpaCalculatorService.updateUserTotals(user);
         return semesterMapper.semesterToSemesterResponse(savedSemester);
     }
+    @Override
+    public SemesterResponse toggleActive(Long id) {
 
+        User user = currentUserService.getCurrentUser();
+
+        Semester semester = semesterRepository.findByIdAndUserId(id, user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Semester not found"));
+
+        semester.setActive(!Boolean.TRUE.equals(semester.getActive()));
+
+        Semester savedSemester = semesterRepository.save(semester);
+
+        gpaCalculatorService.updateUserTotals(user);
+
+        return semesterMapper.semesterToSemesterResponse(savedSemester);
+    }
 
 }

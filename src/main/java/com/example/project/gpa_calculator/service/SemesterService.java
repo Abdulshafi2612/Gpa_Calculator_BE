@@ -18,4 +18,7 @@ public interface SemesterService {
     void deleteSemesterById(Long id);
 
     SemesterResponse updateSemester(Long id, SemesterRequest request);
+
+    SemesterResponse toggleActive(Long id);
+
 }

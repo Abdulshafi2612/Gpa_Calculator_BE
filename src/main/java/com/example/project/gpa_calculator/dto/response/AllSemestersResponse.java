@@ -20,6 +20,7 @@ public class AllSemestersResponse {
 
     private double semesterGpa;
 
+    private Boolean active;
 
     private int semesterCredits;
 

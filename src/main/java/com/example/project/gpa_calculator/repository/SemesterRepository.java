@@ -16,5 +16,12 @@ public interface SemesterRepository  extends JpaRepository<Semester,Long> {
 
     boolean  existsByUserIdAndSequence(Long id, Integer sequence);
 
+    List<Semester> findByUserIdAndActiveTrue(Long userId);
+
     @Query("select max(s.sequence) from Semester s where s.user.id = :userId")
-    Integer findMaxSequenceByUserId(@Param("userId") Long userId);}
+    Integer findMaxSequenceByUserId(@Param("userId") Long userId);
+
+
+}
+
+

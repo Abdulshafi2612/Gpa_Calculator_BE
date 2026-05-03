@@ -24,6 +24,7 @@ public class SemesterResponse {
 
     private int semesterCredits;
 
+    private Boolean active;
 
     private List<SubjectResponse> subjects;
 }
