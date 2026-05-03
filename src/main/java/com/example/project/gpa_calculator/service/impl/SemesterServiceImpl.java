@@ -113,6 +113,8 @@ public class SemesterServiceImpl implements SemesterService {
 
         semester.getSubjects().clear();
 
+        semesterRepository.flush();
+
         List<Subject> newSubjects = request.getSubjects()
                 .stream()
                 .map(subjectMapper::subjectRequestToSubject)
@@ -126,7 +128,9 @@ public class SemesterServiceImpl implements SemesterService {
         gpaCalculatorService.recalculateSemesterStats(semester);
 
         Semester savedSemester = semesterRepository.save(semester);
+
         gpaCalculatorService.updateUserTotals(user);
+
         return semesterMapper.semesterToSemesterResponse(savedSemester);
     }
     @Override
